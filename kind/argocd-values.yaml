@@ -1,0 +1,20 @@
+global:
+  # nip.io resolves *.127.0.0.1.nip.io → 127.0.0.1, no /etc/hosts edit needed
+  domain: argocd.127.0.0.1.nip.io
+
+server:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hostname: argocd.127.0.0.1.nip.io
+
+  extraArgs:
+    - --insecure
+
+# Disable Dex — use ArgoCD admin password instead of Google OAuth
+dex:
+  enabled: false
+
+configs:
+  params:
+    server.insecure: true

@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-app
+  namespace: sample-app
+  labels:
+    app: sample-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sample-app
+  template:
+    metadata:
+      labels:
+        app: sample-app
+    spec:
+      # Required if the GHCR package is private.
+      # Create with: kubectl create secret docker-registry ghcr-creds \
+      #   -n sample-app --docker-server=ghcr.io \
+      #   --docker-username=<github-username> --docker-password=<PAT>
+      # imagePullSecrets:
+      #   - name: ghcr-creds
+      containers:
+        - name: sample-app
+          # Managed by .github/workflows/app-build.yml — do not edit manually.
+          # Format: ghcr.io/<github.repository>/sample-app:<git-sha>
+          # The workflow's sed step overwrites this line on every push to app/**
+          image: ghcr.io/your-org/your-repo/sample-app:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: my-app-secret   # Synced by ExternalSecret from local-k8s-store
+                  key: api-key
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 20

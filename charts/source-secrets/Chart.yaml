@@ -1,0 +1,4 @@
+apiVersion: v2
+name: source-secrets
+description: Creates the source K8s secret that ESO's kubernetes provider reads from.
+version: 0.1.0

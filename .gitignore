@@ -1,0 +1,10 @@
+# Terraform
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/terraform.tfvars
+terraform/tfplan
+terraform/*.tfstate
+terraform/*.tfstate.backup
+
+# Temp files from Gemini/Claude planning
+temp_plan_*.txt

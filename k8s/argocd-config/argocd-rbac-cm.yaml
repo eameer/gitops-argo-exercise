@@ -1,0 +1,14 @@
+# ArgoCD RBAC — local setup grants the built-in admin full access.
+# All other authenticated users get read-only by default.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-rbac-cm
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: argocd-rbac-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  policy.default: role:readonly
+  policy.csv: |
+    g, admin, role:admin

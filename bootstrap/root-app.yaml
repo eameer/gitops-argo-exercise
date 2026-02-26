@@ -1,0 +1,30 @@
+# Root Application — the entry point for the App of Apps pattern.
+# Apply this once after 'terraform apply' to hand control to ArgoCD:
+#   kubectl apply -f bootstrap/root-app.yaml
+#
+# ArgoCD will then discover and reconcile every app in bootstrap/apps/.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  namespace: argocd
+  # Cascade deletion will remove all child apps when this app is deleted.
+  # Remove this annotation if you want to manually manage teardown.
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    # TODO: replace with your actual repository URL
+    repoURL: https://github.com/your-org/your-repo.git
+    targetRevision: main
+    path: bootstrap/apps
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

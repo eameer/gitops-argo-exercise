@@ -1,0 +1,12 @@
+# ArgoCD ConfigMap — sets the server URL for local kind development.
+# Auth is via the built-in admin account (no OAuth/Dex needed locally).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  url: http://argocd.127.0.0.1.nip.io
