@@ -9,8 +9,8 @@ spec:
   project: default
   source:
     # TODO: replace with your actual repository URL
-    repoURL: https://github.com/your-org/your-repo.git
-    targetRevision: main
+    repoURL: https://github.com/eameer/gitops-argo-exercise.git
+    targetRevision: develop
     path: k8s/sample-app
   destination:
     server: https://kubernetes.default.svc
