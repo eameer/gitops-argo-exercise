@@ -3,7 +3,7 @@ name: Build & Deploy App
 on:
   push:
     branches:
-      - main
+      - develop
     paths:
       - "app/**"
 
