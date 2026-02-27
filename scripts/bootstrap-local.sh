@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 # Sets up a local GitOps cluster using kind + ArgoCD.
-# Usage: ./scripts/bootstrap-local.sh --repo <github-url> [--api-key <value>]
+# Usage: ./scripts/bootstrap-local.sh --repo <github-url>
 set -euo pipefail
 
 CLUSTER_NAME="gitops-local"
 ARGOCD_NAMESPACE="argocd"
 ARGOCD_HOSTNAME="argocd.127.0.0.1.nip.io"
 REPO_URL=""
-API_KEY="local-dev-key"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
@@ -15,9 +14,8 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 # parse args
 while [[ $# -gt 0 ]]; do
   case $1 in
-    --repo)    REPO_URL="$2"; shift 2 ;;
-    --api-key) API_KEY="$2";  shift 2 ;;
-    *) echo "unknown arg: $1. Usage: $0 --repo <url> [--api-key <value>]" >&2; exit 1 ;;
+    --repo) REPO_URL="$2"; shift 2 ;;
+    *) echo "unknown arg: $1. Usage: $0 --repo <url>" >&2; exit 1 ;;
   esac
 done
 
@@ -45,13 +43,12 @@ else
   kind create cluster --name "$CLUSTER_NAME" --config "$REPO_ROOT/kind/cluster-config.yaml"
 fi
 
-# install nginx, argocd, and the ESO source secret in one go
+# install nginx and argocd
 echo "installing cluster bootstrap..."
 helm dep update "$REPO_ROOT/charts/cluster-bootstrap"
 helm upgrade --install cluster-bootstrap "$REPO_ROOT/charts/cluster-bootstrap" \
   --namespace "$ARGOCD_NAMESPACE" \
   --create-namespace \
-  --set source-secrets.apiKey="$API_KEY" \
   --set rootApp.repoURL="$REPO_URL" \
   --wait --timeout 5m
 

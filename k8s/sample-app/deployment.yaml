@@ -15,12 +15,6 @@ spec:
       labels:
         app: sample-app
     spec:
-      # Required if the GHCR package is private.
-      # Create with: kubectl create secret docker-registry ghcr-creds \
-      #   -n sample-app --docker-server=ghcr.io \
-      #   --docker-username=<github-username> --docker-password=<PAT>
-      # imagePullSecrets:
-      #   - name: ghcr-creds
       containers:
         - name: sample-app
           # Managed by .github/workflows/app-build.yml — do not edit manually.
@@ -29,12 +23,6 @@ spec:
           image: ghcr.io/eameer/gitops-argo-exercise/sample-app:a5b09d16383a8de045190e4401f85b7429c79bdf
           ports:
             - containerPort: 8080
-          env:
-            - name: API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: my-app-secret   # Synced by ExternalSecret from local-k8s-store
-                  key: api-key
           resources:
             requests:
               cpu: "100m"
