@@ -29,6 +29,11 @@ spec:
 
         promtail:
           enabled: true
+          # kind's only node is the control-plane — DaemonSets need this toleration to schedule.
+          tolerations:
+            - key: node-role.kubernetes.io/control-plane
+              operator: Equal
+              effect: NoSchedule
           resources:
             requests:
               cpu: "25m"
