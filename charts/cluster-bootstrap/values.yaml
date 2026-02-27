@@ -35,4 +35,4 @@ source-secrets:
 # ArgoCD root application — points ArgoCD at this repo so it can self-manage
 rootApp:
   repoURL: ""       # required — passed via --set rootApp.repoURL=...
-  targetRevision: "main"
+  targetRevision: "develop"
