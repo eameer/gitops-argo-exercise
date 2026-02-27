@@ -1,0 +1,14 @@
+apiVersion: v2
+name: cluster-bootstrap
+description: Installs nginx, ArgoCD, and the ESO source secret in one shot.
+version: 0.1.0
+dependencies:
+  - name: ingress-nginx
+    version: "4.10.1"
+    repository: https://kubernetes.github.io/ingress-nginx
+  - name: argo-cd
+    version: "7.7.16"
+    repository: https://argoproj.github.io/argo-helm
+  - name: source-secrets
+    version: "0.1.0"
+    repository: "file://../source-secrets"

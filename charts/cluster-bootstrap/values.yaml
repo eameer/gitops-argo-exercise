@@ -1,0 +1,38 @@
+ingress-nginx:
+  controller:
+    hostPort:
+      enabled: true
+    # needed so nginx can schedule on the kind control-plane node
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        operator: Equal
+        effect: NoSchedule
+    nodeSelector:
+      ingress-ready: "true"
+    service:
+      type: NodePort
+
+argo-cd:
+  global:
+    # nip.io resolves *.127.0.0.1.nip.io → 127.0.0.1, no /etc/hosts edit needed
+    domain: argocd.127.0.0.1.nip.io
+  server:
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      hostname: argocd.127.0.0.1.nip.io
+    extraArgs:
+      - --insecure
+  dex:
+    enabled: false
+  configs:
+    params:
+      server.insecure: true
+
+source-secrets:
+  apiKey: "local-dev-key"
+
+# ArgoCD root application — points ArgoCD at this repo so it can self-manage
+rootApp:
+  repoURL: ""       # required — passed via --set rootApp.repoURL=...
+  targetRevision: "main"
