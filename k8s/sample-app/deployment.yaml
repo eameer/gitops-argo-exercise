@@ -24,9 +24,9 @@ spec:
       containers:
         - name: sample-app
           # Managed by .github/workflows/app-build.yml — do not edit manually.
-          # Format: ghcr.io/<github.repository>/sample-app:<git-sha>
+          # Format: ghcr.io/eameer/gitops-argo-exercise/sample-app:a5b09d16383a8de045190e4401f85b7429c79bdf
           # The workflow's sed step overwrites this line on every push to app/**
-          image: ghcr.io/your-org/your-repo/sample-app:latest
+          image: ghcr.io/eameer/gitops-argo-exercise/sample-app:a5b09d16383a8de045190e4401f85b7429c79bdf
           ports:
             - containerPort: 8080
           env:
