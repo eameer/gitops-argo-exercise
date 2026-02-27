@@ -5,7 +5,7 @@ resources:
 namespace: sample-app-dev
 images:
   - name: ghcr.io/eameer/gitops-argo-exercise/sample-app
-    newTag: latest  # updated by CI on every push to app/**
+    newTag: 15c8973a7eead60e3bcca41ea79a6d9cf8857b47
 patches:
   - path: ingress-patch.yaml
   - path: resources-patch.yaml
