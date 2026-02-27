@@ -16,6 +16,7 @@ class Handler(BaseHTTPRequestHandler):
             self.wfile.write(b"Hello from sample-app!")
 
     def log_message(self, format, *args):  # noqa: A002
+        print(f"some log")
         pass  # Suppress default access logs; use structured logging in production
 
 
