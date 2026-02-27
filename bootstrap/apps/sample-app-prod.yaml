@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: sample-app
+  name: sample-app-prod
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,10 +10,10 @@ spec:
   source:
     repoURL: https://github.com/eameer/gitops-argo-exercise.git
     targetRevision: develop
-    path: k8s/sample-app/overlays/dev
+    path: k8s/sample-app/overlays/prod
   destination:
     server: https://kubernetes.default.svc
-    namespace: sample-app-dev
+    namespace: sample-app-prod
   syncPolicy:
     automated:
       prune: true

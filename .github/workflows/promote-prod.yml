@@ -1,0 +1,39 @@
+name: Promote to Prod
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  promote:
+    name: Promote dev image tag to prod
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read dev image tag
+        id: dev_tag
+        run: |
+          TAG=$(grep 'newTag:' k8s/sample-app/overlays/dev/kustomization.yaml \
+                | head -1 \
+                | sed 's/.*newTag:[[:space:]]*//' \
+                | tr -d '[:space:]')
+          echo "TAG=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Update prod image tag
+        run: |
+          sed -i "s|newTag:.*|newTag: ${{ steps.dev_tag.outputs.TAG }}|" \
+            k8s/sample-app/overlays/prod/kustomization.yaml
+
+      - name: Commit updated prod manifest
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add k8s/sample-app/overlays/prod/kustomization.yaml
+          git commit -m "chore: promote sample-app:${{ steps.dev_tag.outputs.TAG }} to prod"
+          git push

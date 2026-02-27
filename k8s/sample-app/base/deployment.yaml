@@ -2,11 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sample-app
-  namespace: sample-app
   labels:
     app: sample-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: sample-app
@@ -17,19 +16,10 @@ spec:
     spec:
       containers:
         - name: sample-app
-          # Managed by .github/workflows/app-build.yml — do not edit manually.
-          # Format: ghcr.io/eameer/gitops-argo-exercise/sample-app:a5b09d16383a8de045190e4401f85b7429c79bdf
-          # The workflow's sed step overwrites this line on every push to app/**
-          image: ghcr.io/eameer/gitops-argo-exercise/sample-app:a5b09d16383a8de045190e4401f85b7429c79bdf
+          # Tag is set per-overlay via the images: transformer in each overlay's kustomization.yaml.
+          image: ghcr.io/eameer/gitops-argo-exercise/sample-app
           ports:
             - containerPort: 8080
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
-            limits:
-              cpu: "250m"
-              memory: "256Mi"
           readinessProbe:
             httpGet:
               path: /health
