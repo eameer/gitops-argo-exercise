@@ -5,8 +5,5 @@ dependencies:
 - name: argo-cd
   repository: https://argoproj.github.io/argo-helm
   version: 7.7.16
-- name: source-secrets
-  repository: file://../source-secrets
-  version: 0.1.0
-digest: sha256:a9253b6804e10a194a581acca449ca36cc49786e70d4efbed743024ad382e774
-generated: "2026-02-27T22:39:54.401323+08:00"
+digest: sha256:6dcfe38cb8354a059fb4a3e28cedd9a2432ca72964ab3a0dbde4d627d9c72375
+generated: "2026-02-28T23:12:04.872768+08:00"

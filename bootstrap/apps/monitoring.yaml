@@ -56,9 +56,6 @@ spec:
               limits:
                 cpu: "200m"
                 memory: "512Mi"
-            remoteWrite:
-              - url: http://mimir-nginx.monitoring.svc:80/api/v1/push
-
         grafana:
           enabled: true
           adminPassword: "grafana"   # local only — change for any shared environment
@@ -76,9 +73,9 @@ spec:
                   url: http://monitoring-loki:3100
                   access: proxy
                   isDefault: true
-                - name: Mimir
+                - name: Prometheus
                   type: prometheus
-                  url: http://mimir-nginx.monitoring.svc:80/prometheus
+                  url: http://monitoring-prometheus-server.monitoring.svc:80
                   access: proxy
           resources:
             requests:
