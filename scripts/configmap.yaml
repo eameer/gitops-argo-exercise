@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-realm
+  namespace: keycloak
+data:
+  realm.json: |
+    {
+      "realm": "{{ .Values.realmName }}",
+      "enabled": true,
+      "users": [
+        {
+          "username": "{{ .Values.users.0.username }}",
+          "enabled": true,
+          "credentials": [
+            {
+              "type": "password",
+              "value": "{{ .Values.users.0.password }}",
+              "temporary": false
+            }
+          ]
+        }
+      ],
+      "clients": [
+        {
+          "clientId": "{{ .Values.client.clientId }}",
+          "enabled": true,
+          "protocol": "openid-connect",
+          "publicClient": false,
+          "secret": "{{ .Values.client.secret }}",
+          "redirectUris": [
+            {{- range $uri := .Values.client.redirectUris }}
+            "{{ $uri }}",
+            {{- end }}
+          ]
+        }
+      ]
+    }

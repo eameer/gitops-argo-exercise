@@ -43,6 +43,34 @@ else
   kind create cluster --name "$CLUSTER_NAME" --config "$REPO_ROOT/kind/cluster-config.yaml"
 fi
 
+# install keycloak-realm chart
+# echo "installing keycloak realm chart..."
+# helm upgrade --install keycloak-realm "$REPO_ROOT/charts/keycloak-realm" \
+#   --namespace keycloak \
+#   --create-namespace \
+#   --wait --timeout 5m
+
+# # install keycloak
+# echo "installing keycloak..."
+# helm repo add bitnami https://charts.bitnami.com/bitnami
+# helm repo update
+# helm upgrade --install keycloak bitnami/keycloak \
+#   --namespace keycloak \
+#   --create-namespace \
+#   --set auth.adminUser=admin \
+#   --set auth.adminPassword=admin \
+#   --set production=false \
+#   --set ingress.enabled=true \
+#   --set ingress.ingressClassName=nginx \
+#   --set ingress.hostname=keycloak.127.0.0.1.nip.io \
+#   --set "extraEnvVars[0].name=KEYCLOAK_EXTRA_ARGS" \
+#   --set "extraEnvVars[0].value=--import-realm" \
+#    --set "extraVolumes[0].name=realm-config" \
+#    --set "extraVolumes[0].configMap.name=keycloak-realm" \
+#    --set "extraVolumeMounts[0].name=realm-config" \
+#   --set "extraVolumeMounts[0].mountPath=/opt/bitnami/keycloak/data/import" \
+#   --wait --timeout 5m
+
 # install nginx and argocd
 echo "installing cluster bootstrap..."
 helm dep update "$REPO_ROOT/charts/cluster-bootstrap"
@@ -57,6 +85,13 @@ ARGOCD_PASSWORD=$(argocd admin initial-password -n "$ARGOCD_NAMESPACE" | head -1
 
 echo ""
 echo "done!"
+echo ""
+echo "  keycloak:   http://keycloak.127.0.0.1.nip.io"
+echo "  user:       admin"
+echo "  password:   admin"
+# echo "  (An 'argocd' realm was created with a test user)"
+# echo "  test user:  gitops"
+# echo "  password:   gitops"
 echo ""
 echo "  argocd:     http://$ARGOCD_HOSTNAME"
 echo "  user:       admin"

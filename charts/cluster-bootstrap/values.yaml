@@ -23,8 +23,8 @@ argo-cd:
       hostname: argocd.127.0.0.1.nip.io
     extraArgs:
       - --insecure
-  dex:
-    enabled: false
+  # dex:
+  #   enabled: true
   configs:
     params:
       server.insecure: true

@@ -1,0 +1,9 @@
+realmName: argocd
+users:
+  - username: gitops
+    password: gitops
+client:
+  clientId: argocd
+  secret: my-super-secret
+  redirectUris:
+    - http://argocd.127.0.0.1.nip.io/api/dex/callback

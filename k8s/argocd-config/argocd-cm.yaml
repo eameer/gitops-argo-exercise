@@ -10,3 +10,16 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   url: http://argocd.127.0.0.1.nip.io
+  # dex.config: |
+  #   connectors:
+  #     - type: oidc
+  #       id: keycloak
+  #       name: Keycloak
+  #       config:
+  #         issuer: http://keycloak.127.0.0.1.nip.io/realms/argocd
+  #         clientID: argocd
+  #         # In a real environment, you'd reference a key in argocd-secret
+  #         clientSecret: my-super-secret
+  #         insecureEnableGroups: true
+  #         # Disables TLS verification for local non-https development
+  #         insecureSkipEmailVerified: true

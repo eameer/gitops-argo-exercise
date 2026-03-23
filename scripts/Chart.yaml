@@ -1,0 +1,5 @@
+apiVersion: v2
+name: keycloak-realm
+description: A Helm chart to create Keycloak realm config
+type: application
+version: 0.1.0
